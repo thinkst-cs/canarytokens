@@ -65,18 +65,18 @@
               <h4 style="text-align: center;">Incident Map</h4>
             </div>
           </div>
-        {% if API_KEY %}
+{% if API_KEY %}
           <div class="row">
               <div class="col-md-12"><div class="map" id="map"></div></div>
           </div>
-        {% else %}
+{% else %}
            <div class="row">
               <div class="col-md-12"><p id="map-no-key">The Incident Map could not be displayed because a valid Google Maps API key could not be found. This can be added to the <code>frontend.env</code> file.</p></div>
           </div>
-        {%endif%}
+{%endif%}
         </div>
         <div class="col-sm-6 incident-size">
-        {% if (canarydrop['triggered_list']|length) > 0 %}
+{% if (canarydrop['triggered_list']|length) > 0 %}
 
         <div class="row" style="align-items: center;">
           <h4 style="text-align: center;" class="col-md-9">Incident List</h4>
@@ -93,31 +93,31 @@
         </div>
 
         <!-- <h6 class="text-info" style="text-align: center;">Click to expand Incidents</h6> -->
-        {% else %}
+{% else %}
         <h4 style="text-align: center;">Incident List is Currently Empty</h4>
-        {% endif %}
+{% endif %}
         <div class="row incident-list">
           <div class="col-md-12" id="incidents">
-          {% for item in canarydrop['triggered_list']|sort(reverse=True) %}
+{% for item in canarydrop['triggered_list']|sort(reverse=True) %}
           <div class="incident-item expand" id="item-{{item}}">
                 <p class="details-header">
                 <b>Date:</b> {{ item|e }}
-                                  {% if 'src_data' in canarydrop['triggered_list'][item] and
-                                  'aws_keys_event_source_ip' in canarydrop['triggered_list'][item]['src_data'] %}
+  {% if 'src_data' in canarydrop['triggered_list'][item] and
+   'aws_keys_event_source_ip' in canarydrop['triggered_list'][item]['src_data'] %}
                                   <b>IP:</b> {{ canarydrop['triggered_list'][item]['src_data']['aws_keys_event_source_ip'] }}
 
                                   <b>Channel:</b> AWS API Key Token
-                                  {% else %}
+  {% else %}
                                   <b>IP:</b> {{ canarydrop['triggered_list'][item]['src_ip'] }}
 
                                   <b>Channel:</b> {{ canarydrop['triggered_list'][item]['input_channel'] }}
-                                  {% endif %}
+  {% endif %}
                 </p>
                 <div class="incident-item-details">
                 <!-- <script type="text/javascript">
                   appendGeoInfoTest("{{item}}");
                 </script> -->
-            {% if canarydrop['triggered_list'][item]['geo_info'] and not canarydrop['triggered_list'][item]['geo_info']['bogon'] == true%}
+  {% if canarydrop['triggered_list'][item]['geo_info'] and not canarydrop['triggered_list'][item]['geo_info']['bogon'] == true%}
               <table class="table table-striped">
                 <col width="25%">
                 <col width="75%">
@@ -126,7 +126,7 @@
                      Geo Info
                    </td>
                 </tr>
-                {% if canarydrop['triggered_list'][item]['geo_info']['country'] %}
+    {% if canarydrop['triggered_list'][item]['geo_info']['country'] %}
                 <tr class="info_row">
                   <td>Country</td>
                   <td>
@@ -134,45 +134,45 @@
                       <i class="famfamfam-flag-{{(canarydrop['triggered_list'][item]['geo_info']['country'])|lower}}"></i>
                   </td>
                 </tr>
-                {% endif %}
-                {% if canarydrop['triggered_list'][item]['geo_info']['city'] %}
+    {% endif %}
+    {% if canarydrop['triggered_list'][item]['geo_info']['city'] %}
                 <tr class="info_row">
                   <td>City</td>
                   <td>
                       {{ canarydrop['triggered_list'][item]['geo_info']['city'] }}
                   </td>
                 </tr>
-                {% endif %}
-                {% if canarydrop['triggered_list'][item]['geo_info']['region'] %}
+    {% endif %}
+    {% if canarydrop['triggered_list'][item]['geo_info']['region'] %}
                 <tr class="info_row">
                   <td>Region</td>
                   <td>
                       {{ canarydrop['triggered_list'][item]['geo_info']['region'] }}
                   </td>
                 </tr>
-                {% endif %}
-                {% if canarydrop['triggered_list'][item]['geo_info']['org'] %}
+    {% endif %}
+    {% if canarydrop['triggered_list'][item]['geo_info']['org'] %}
                 <tr class="info_row">
                   <td>Organisation</td>
                   <td>
                       {{ canarydrop['triggered_list'][item]['geo_info']['org'] }}
                   </td>
                 </tr>
-                {% endif %}
-                {% if canarydrop['triggered_list'][item]['geo_info']['hostname'] %}
+    {% endif %}
+    {% if canarydrop['triggered_list'][item]['geo_info']['hostname'] %}
                 <tr class="info_row">
                   <td>Hostname</td>
                   <td>
                       {{ canarydrop['triggered_list'][item]['geo_info']['hostname'] }}
                   </td>
                 </tr>
-                {% endif %}
+    {% endif %}
                 <script type="text/javascript">
                   appendGeoInfo("{{item}}",{{canarydrop['triggered_list'][item]['geo_info']|tojson}});
                 </script>
               </table>
-            {%endif%}
-            {% if canarydrop['triggered_list'][item]['is_tor_relay'] != None %}
+  {%endif%}
+  {% if canarydrop['triggered_list'][item]['is_tor_relay'] != None %}
               <table class="table table-bordered table-hover">
                 <col width="25%">
                 <col width="75%">
@@ -190,7 +190,7 @@
                   </td>
                 </tr>
               </table>
-            {%endif%}
+  {%endif%}
 
             <table class="table table-bordered table-hover">
               <col width="25%">
@@ -208,13 +208,13 @@
                         {{ canarydrop['memo']|e }}
                         </td>
                         </tr>
-                      {% for field in canarydrop['triggered_list'][item] %}
-                        {% if canarydrop['triggered_list'][item][field] != None and
-                        canarydrop['triggered_list'][item][field] is defined and
-                        field not in ['geo_info','is_tor_relay','additional_info','secretkeeper_photo'] %}
-                          {% if field not in ['src_ip','input_channel'] %}
+  {% for field in canarydrop['triggered_list'][item] %}
+    {% if canarydrop['triggered_list'][item][field] != None and
+          canarydrop['triggered_list'][item][field] is defined and
+          field not in ['geo_info','is_tor_relay','additional_info','secretkeeper_photo'] %}
+      {% if field not in ['src_ip','input_channel'] %}
                       <tr class="info_row">
-                        {% if field == 'src_data' and 'aws_keys_event_source_ip' in canarydrop['triggered_list'][item][field] %}
+        {% if field == 'src_data' and 'aws_keys_event_source_ip' in canarydrop['triggered_list'][item][field] %}
                           <td>
                            AWS Access Key ID
                          </td>
@@ -237,7 +237,7 @@
                          <td>
                            {{ canarydrop['triggered_list'][item][field]['aws_keys_event_source_ip']|e }}
                          </td>
-                        {% if 'aws_keys_event_user_agent' in canarydrop['triggered_list'][item][field]%}
+          {% if 'aws_keys_event_user_agent' in canarydrop['triggered_list'][item][field]%}
                          </tr>
                          <tr class="info_row">
                           <td>
@@ -246,8 +246,8 @@
                          <td>
                            {{ canarydrop['triggered_list'][item][field]['aws_keys_event_user_agent']|e }}
                          </td>
-                        {% endif %}
-                        {% if canarydrop['type'] ==  'wireguard' and field == 'src_data' %}
+          {% endif %}
+          {% if canarydrop['type'] ==  'wireguard' and field == 'src_data' %}
                         <tr class="info_row">
                         <td>
                          Client Source Port
@@ -280,8 +280,8 @@
                          {{ canarydrop['triggered_list'][item][field]['server_public_key'] |e }}
                         </td>
                        </tr>
-                        {% endif %}
-                        {% elif field == 'src_data' and field in canarydrop['triggered_list'][item] and 'generic_data' in canarydrop['triggered_list'][item][field] %}
+          {% endif %}
+        {% elif field == 'src_data' and field in canarydrop['triggered_list'][item] and 'generic_data' in canarydrop['triggered_list'][item][field] %}
                       <tr class="info_row">
                         <td>
                          Generic Data
@@ -290,7 +290,7 @@
                          {{ canarydrop['triggered_list'][item][field]['generic_data']|e }}
                        </td>
                       </tr>
-                        {% elif canarydrop['triggered_list'][item][field] %}
+        {% elif canarydrop['triggered_list'][item][field] %}
 
                          <td>
                            {{field}}
@@ -298,28 +298,28 @@
                          <td>
                            {{ canarydrop['triggered_list'][item][field]|e }}
                          </td>
-                         {% endif %}
+        {% endif %}
                       </tr>
-                      {%endif%}
-                    {%endif%}
-                  {% endfor %}
+      {%endif%}
+    {%endif%}
+  {% endfor %}
                     </table>
-                {% if canarydrop['triggered_list'][item]['additional_info'] %}
+  {% if canarydrop['triggered_list'][item]['additional_info'] %}
                   <table class="table table-bordered table-hover">
                                 <b>Additional Info</b>
                     <col width="25%">
                     <col width="75%">
-                    {% for info in canarydrop['triggered_list'][item]['additional_info'] %}
+    {% for info in canarydrop['triggered_list'][item]['additional_info'] %}
                     <tr class="header_row">
                        <td colspan="2">
                          {{info}}
                        </td>
-                        {%if info == 'iOS-App'%}
+      {%if info == 'iOS-App'%}
                       <script type="text/javascript">
                         appendGeoInfo("{{item}}",{{canarydrop['triggered_list'][item]['additional_info'][info]}})
                       </script>
-                      {% else %}
-                        {% if info == 'secretkeeper_photo'%}
+      {% else %}
+        {% if info == 'secretkeeper_photo'%}
                           <tr class="info_row">
                             <td>
                               Photo
@@ -328,13 +328,13 @@
                               <img src="data:image/png;base64,{{canarydrop.get_secretkeeper_photo_as_base64(item)}}"/>
                             </td>
                           </tr>
-                        {% endif %}
-                      {%endif%}
+        {% endif %}
+      {%endif%}
                     </tr>
-                      {% if canarydrop['triggered_list'][item]['additional_info'][info].__class__.__name__ == 'str' %}
+      {% if canarydrop['triggered_list'][item]['additional_info'][info].__class__.__name__ == 'str' %}
                         {% continue %}
-                      {% endif %}
-                      {% for info_item in canarydrop['triggered_list'][item]['additional_info'][info] %}
+      {% endif %}
+      {% for info_item in canarydrop['triggered_list'][item]['additional_info'][info] %}
                         <tr class="info_row">
                           <td>
                             {{info_item}}
@@ -345,13 +345,13 @@
                                   else canarydrop['triggered_list'][item]['additional_info'][info][info_item]|join(', ') }}
                           </td>
                         </tr>
-                      {% endfor %}
-                    {% endfor %}
+      {% endfor %}
+    {% endfor %}
                   </table>
-                {% endif %}
+  {% endif %}
             </div>
           </div>
-          {%endfor%}
+{%endfor%}
           </div>
         </div>
       </div>
@@ -529,13 +529,13 @@
       });
 
     </script>
-  {% if API_KEY %}
+{% if API_KEY %}
   <script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&callback=initMap" async defer></script>
-  {% else %}
+{% else %}
   <script>
     $('#incidents').parent().parent().show();
     $('#map-no-key').parent().parent().parent().show();
   </script>
-  {%endif%}
+{%endif%}
   </body>
 </html>
