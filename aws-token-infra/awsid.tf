@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "terraformstate-595918472158"
+    bucket = "terraformstate-<account_id>"
     key    = "terraformstate"
     region = "us-east-2"
     dynamodb_table = "terraformlock"
@@ -317,14 +317,14 @@ resource "aws_iam_policy" "process_user_api_tokens_logs_lambda_logs" {
       ],
       "Resource": "*"
     },
-    {
-      "Effect": "Allow",
-      "Action": [
-          "dynamodb:PutItem",
-          "dynamodb:GetItem"
-      ],
-      "Resource": "arn:aws:dynamodb:us-east-2:${data.aws_caller_identity.current.account_id}:table/${aws_dynamodb_table.awsidtoken_table.name}"
-    },
+      {
+        "Effect": "Allow",
+        "Action": [
+            "dynamodb:PutItem",
+            "dynamodb:GetItem"
+        ],
+        "Resource": "arn:aws:dynamodb:us-east-2:${data.aws_caller_identity.current.account_id}:table/${aws_dynamodb_table.awsidtoken_table.name}"
+      },
     {
         "Effect": "Allow",
         "Action": "logs:CreateLogGroup",
